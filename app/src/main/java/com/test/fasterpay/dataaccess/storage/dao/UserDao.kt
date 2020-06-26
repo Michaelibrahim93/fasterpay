@@ -17,7 +17,7 @@ interface UserDao {
     fun getUserByEmail(email: String): Observable<User>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addUser(user: User)
+    fun addUser(user: User): Observable<Void>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addUsers(user: List<User>)

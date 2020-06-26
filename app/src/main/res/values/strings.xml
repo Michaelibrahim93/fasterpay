@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">FasterPay</string>
+    <string name="no_cred_found">Wrong email or password</string>
+    <string name="user_not_found">User not found</string>
+    <string name="already_registered_user">This email is already registered to other account.</string>
 </resources>
