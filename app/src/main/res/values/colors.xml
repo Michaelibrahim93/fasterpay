@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#28205E</color>
+    <color name="colorPrimaryDark">#28205E</color>
+    <color name="colorAccent">#FEC013</color>
+
+    <color name="orange">#FEC013</color>
+    <color name="semi_transparent">#7E7196</color>
+</resources>
