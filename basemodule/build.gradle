@@ -48,15 +48,11 @@ dependencies {
 
     // ViewModel and LiveData
     api 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    api 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
 
     //RxJava and rx android
     api "io.reactivex.rxjava2:rxjava:$RxJavaVersion"
     api "io.reactivex.rxjava2:rxandroid:$RxAndroidVersion"
 
-    //RxJava + Retrofit
-    api "com.squareup.retrofit2:adapter-rxjava2:$RetrofitVersion"
-
-    //Retrofit
-    api "com.squareup.retrofit2:retrofit:$RetrofitVersion"
     api "com.squareup.retrofit2:converter-gson:$RetrofitVersion"
 }

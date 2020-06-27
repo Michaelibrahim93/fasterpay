@@ -3,10 +3,10 @@ package com.test.fasterpay.ui.fragments.splash
 import android.app.Application
 import android.os.Handler
 import androidx.hilt.lifecycle.ViewModelInject
-import com.test.fasterpay.dataaccess.repository.UserReop
+import com.test.fasterpay.dataaccess.repository.UserRepo
 import com.test.fasterpay.ui.fragments.base.FasterPayBaseViewModel
 
-class SplashViewModel @ViewModelInject constructor(application: Application,val userReop: UserReop)
+class SplashViewModel @ViewModelInject constructor(application: Application,val userReop: UserRepo)
     : FasterPayBaseViewModel(application) {
 
     init {

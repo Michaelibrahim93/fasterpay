@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -42,5 +42,30 @@
         <item name="android:textSize">38sp</item>
         <item name="android:fontFamily">@font/promxima_med</item>
         <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="EditTextAuthStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/text_field_height</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorHint">@color/white_semi_transparent</item>
+        <item name="android:background">@drawable/rounded_corner_semi_transparent</item>
+        <item name="android:paddingStart">@dimen/default_padding</item>
+        <item name="android:paddingEnd">@dimen/default_padding</item>
+    </style>
+
+    <style name="BtnOrangeStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/text_field_height</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:background">@drawable/rounded_corner_orange</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/promxima_reg</item>
+    </style>
+
+    <style name="BtnPurpleStyle" parent="BtnOrangeStyle">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/rounded_corner_semi_transparent</item>
     </style>
 </resources>

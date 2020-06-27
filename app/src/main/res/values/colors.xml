@@ -7,5 +7,6 @@
     <color name="orange">#FEC013</color>
     <color name="semi_transparent">#7E7196</color>
     <color name="white">#ffffff</color>
+    <color name="white_semi_transparent">#88ffffff</color>
     <color name="black">#000000</color>
 </resources>

@@ -3,7 +3,7 @@ package com.test.fasterpay.dataaccess.storage.dao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.test.fasterpay.vo.MoneyTransaction
-import io.reactivex.Observable
+import io.reactivex.Completable
 
 @Dao
 interface TransactionDao {
@@ -11,8 +11,8 @@ interface TransactionDao {
     fun getTransactionsByWalletId(walletId: String): LiveData<List<MoneyTransaction>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addTransaction(transaction: MoneyTransaction): Observable<Void>
+    fun addTransaction(transaction: MoneyTransaction): Completable
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addTransactionList(list: List<MoneyTransaction>): Observable<Void>
+    fun addTransactionList(list: List<MoneyTransaction>): Completable
 }

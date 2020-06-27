@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/splashFragment">
+
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.test.fasterpay.ui.fragments.splash.SplashFragment"
+        android:label="SplashFragment"
+        tools:layout="@layout/fragment_splash">
+        <action
+            android:id="@+id/action_splash_login"
+            app:destination="@id/signInFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/main_nav_graph"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.test.fasterpay.ui.fragments.signin.SignInFragment"
+        android:label="signInFragment"
+        tools:layout="@layout/fragment_sign_in">
+    </fragment>
+
+</navigation>

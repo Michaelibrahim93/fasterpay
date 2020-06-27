@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.test.fasterpay.vo.User
+import io.reactivex.Completable
 import io.reactivex.Observable
 
 @Dao
@@ -17,8 +18,8 @@ interface UserDao {
     fun getUserByEmail(email: String): Observable<User>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addUser(user: User): Observable<Void>
+    fun addUser(user: User): Completable
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addUsers(user: List<User>)
+    fun addUsers(user: List<User>): Completable
 }

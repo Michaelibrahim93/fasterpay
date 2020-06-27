@@ -3,4 +3,15 @@
     <string name="no_cred_found">Wrong email or password</string>
     <string name="user_not_found">User not found</string>
     <string name="already_registered_user">This email is already registered to other account.</string>
+    <string name="sign_in">Sign In</string>
+    <string name="user_your">User your</string>
+    <string name="account">account</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">I forgot password</string>
+    <string name="log_in">Log in</string>
+    <string name="sign_up">Sign up</string>
+    <string name="ok">OK</string>
+    <string name="not_valid_email">Email is not valid</string>
+    <string name="not_valid_password">Password is empty</string>
 </resources>

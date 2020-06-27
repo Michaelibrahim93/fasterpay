@@ -1,6 +1,7 @@
 package com.test.basemodule.base.viewmodel
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.test.basemodule.base.livedata.QuickLiveData
@@ -19,6 +20,10 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
     init {
         ldActions.value = HashSet()
         ldLoadingState.value = LoadingState()
+    }
+
+    protected fun getContext(): Context {
+        return getApplication()
     }
 
     protected fun addLoadingObject(loadingMode: Int, tag: Any) {
@@ -58,11 +63,11 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
         mustRetry: Boolean,
         runnable: Runnable?
     ) {
-        LogUtils.e("handleNetworkError", throwable)
+        LogUtils.w("handleNetworkError", throwable)
         ldUiError.postValue(createUiErrorModel(throwable, mustRetry, runnable))
     }
 
-    protected fun createUiErrorModel(throwable: Throwable, mustRetry: Boolean,runnable: Runnable?): UiError? {
+    protected open fun createUiErrorModel(throwable: Throwable, mustRetry: Boolean,runnable: Runnable?): UiError {
         return UiError(
             throwable, throwable.toString(), mustRetry
             , throwable is HttpException
@@ -77,5 +82,4 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
     fun clearUiError() {
         ldUiError.postValue(null)
     }
-
 }

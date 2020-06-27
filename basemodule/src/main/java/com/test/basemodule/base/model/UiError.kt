@@ -2,14 +2,14 @@ package com.test.basemodule.base.model
 
 class UiError {
     var throwable: Throwable? = null
-    var errorText: String? = null
+    var errorText: String = ""
     var mustRetry = false
     var isServerError = false
     var runnable: Runnable? = null
 
     constructor(
         throwable: Throwable?,
-        errorText: String?,
+        errorText: String,
         mustRetry: Boolean,
         isServerError: Boolean,
         runnable: Runnable?

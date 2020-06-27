@@ -15,7 +15,8 @@ import com.test.fasterpay.vo.Wallet
 
 @Database(
     entities = [User::class, MoneyTransaction::class, Wallet::class, CredentialsForm::class],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
 @TypeConverters(ObjectsConverter::class)
 abstract class FasterPayDatabase : RoomDatabase(){

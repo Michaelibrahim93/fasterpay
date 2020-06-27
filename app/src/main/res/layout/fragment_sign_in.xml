@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="androidx.lifecycle.MutableLiveData" />
+        <variable
+            name="email"
+            type="MutableLiveData&lt;String>" />
+        <variable
+            name="password"
+            type="MutableLiveData&lt;String>" />
+        <variable
+            name="callbacks"
+            type="com.test.fasterpay.ui.fragments.signin.LoginCallbacks" />
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        tools:context=".ui.fragments.signin.SignInFragment"
+        android:paddingStart="@dimen/auth_padding"
+        android:paddingEnd="@dimen/auth_padding"
+        android:gravity="center_horizontal">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat = "@drawable/faster_pay_text_logo"
+            android:layout_marginBottom="@dimen/margin_xl"/>
+
+        <View style="@style/SmallSeparator"
+            android:layout_marginBottom="@dimen/margin_m"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextTitleWhite"
+            android:text="@string/sign_in"
+            android:layout_marginBottom="@dimen/margin_l"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="@dimen/margin_xxl">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_your"
+                android:layout_marginEnd="@dimen/margin_xs"
+                style="@style/TextRegularWhite"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat = "@drawable/passport_logo"
+                android:layout_marginEnd="@dimen/margin_xs"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/account"
+                style="@style/TextRegularWhite"/>
+        </LinearLayout>
+
+        <EditText android:id="@+id/fSIEditTextEmail"
+            style="@style/EditTextAuthStyle"
+            android:inputType="textEmailAddress"
+            android:hint="@string/email"
+            android:layout_marginBottom="@dimen/margin_m"
+            android:importantForAutofill="no"
+            android:text="@={email}"/>
+
+        <EditText android:id="@+id/fSIEditTextPassword"
+            style="@style/EditTextAuthStyle"
+            android:inputType="textPassword"
+            android:hint="@string/password"
+            android:layout_marginBottom="@dimen/margin_l"
+            android:text="@={password}"/>
+
+        <TextView android:id="@+id/fSITextViewForgotPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_l"
+            style="@style/TextRegularWhite"
+            android:textColor="@color/orange"
+            android:text="@string/forgot_password"
+            android:layout_marginBottom="@dimen/margin_l"
+            android:onClick="@{() -> callbacks.clickedForgotPassword()}"/>
+
+        <Button android:id="@+id/fSIBtnLogin"
+            style="@style/BtnOrangeStyle"
+            android:text="@string/log_in"
+            android:layout_marginBottom="@dimen/margin_m"
+            android:onClick="@{() -> callbacks.clickedLogin()}"/>
+
+        <Button android:id="@+id/fSIBtnSignUp"
+            style="@style/BtnPurpleStyle"
+            android:text="@string/sign_up"
+            android:layout_marginBottom="@dimen/margin_m"
+            android:onClick="@{() -> callbacks.clickedSignUp()}"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.7"/>
+    </LinearLayout>
+</layout>

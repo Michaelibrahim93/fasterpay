@@ -33,7 +33,6 @@ abstract class AbstractRecyclerAdapter<E, K : BaseViewHolder<E>>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): K {
         val itemView = LayoutInflater.from(parent.context).inflate(viewRes, parent, false)
-        val params = itemView.layoutParams
         val viewHolder = onCreateDefaultViewHolder(parent, viewType, itemView)
         viewHolder.setOnItemClickListener(clickListener)
         return viewHolder

@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import com.test.basemodule.base.model.VMNotification
 import com.test.fasterpay.R
 import com.test.fasterpay.ui.fragments.base.FasterPayBaseFragment
@@ -22,7 +23,7 @@ class SplashFragment : FasterPayBaseFragment<SplashViewModel>() {
         super.doAction(vmNotification)
         when(vmNotification.getAction()) {
             ACTION_TO_HOME -> Log.d(TAG, "doAction: ACTION_TO_HOME")
-            ACTION_TO_LOGIN -> Log.d(TAG, "doAction: ACTION_TO_LOGIN")
+            ACTION_TO_LOGIN -> view?.findNavController()?.navigate(R.id.action_splash_login)
         }
     }
 
