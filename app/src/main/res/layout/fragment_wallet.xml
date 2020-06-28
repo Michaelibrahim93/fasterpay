@@ -82,23 +82,40 @@
                 style="@style/TextRegularWhite"/>
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView android:id="@+id/fWRecyclerTransactions"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintTop_toBottomOf="@id/layoutTopUp"
             app:layout_constraintBottom_toBottomOf="parent"
             android:background="@drawable/rounded_top_corners"
-            android:paddingTop="@dimen/sheet_half_radius"
-            android:layout_marginTop="@dimen/margin_l"/>
+            android:layout_marginTop="@dimen/margin_l">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fWRecyclerTransactions"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:visibleGone="@{transactions.size() > 0}"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                style="@style/TextSubtitleBlack"
+                android:text="@string/no_transactions"
+                app:visibleGone="@{transactions.size() == 0}"/>
+        </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <data>
         <import type="androidx.lifecycle.MutableLiveData"/>
         <import type="com.test.fasterpay.vo.Wallet"/>
         <import type="com.test.fasterpay.ui.formatters.TextFormatter"/>
+        <import type="com.test.fasterpay.ui.fragments.wallet.adapter.UiTransaction"/>
+        <import type="java.util.List"/>
         <variable
             name="wallet"
             type="MutableLiveData&lt;Wallet>" />
+        <variable
+            name="transactions"
+            type="MutableLiveData&lt;List&lt;UiTransaction>>" />
         <variable
             name="callbacks"
             type="com.test.fasterpay.ui.fragments.wallet.WalletCallbacks" />

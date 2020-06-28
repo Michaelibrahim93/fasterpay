@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import com.test.basemodule.base.model.VMNotification
+import com.test.fasterpay.BuildConfig
 import com.test.fasterpay.R
 import com.test.fasterpay.databinding.FragmentSignInBinding
 import com.test.fasterpay.ui.fragments.base.BindingBaseFragment

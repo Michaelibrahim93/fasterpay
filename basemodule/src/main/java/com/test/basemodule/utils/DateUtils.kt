@@ -4,7 +4,7 @@ import java.util.*
 
 object DateUtils {
     @JvmStatic
-    fun generateDate(year: Int, month: Int, dayOfMonth: Int): Date? {
+    fun generateDate(year: Int, month: Int, dayOfMonth: Int): Date {
         val calendar = Calendar.getInstance()
         calendar[Calendar.YEAR] = year
         calendar[Calendar.MONTH] = month

@@ -8,8 +8,12 @@ import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
+import com.test.basemodule.utils.LogUtils
 import java.io.File
 
 /**
@@ -17,8 +21,10 @@ import java.io.File
  * Binding adapters that work with a fragment instance.
  */
 object ImageBindingAdapters {
+    private const val TAG = "ImageBindingAdapters"
+    @JvmStatic
     @BindingAdapter(
-        value = ["imageUrl", "placeholderImage", "errorImage", "imageRequestListener", "isCircular"],
+        value = ["imageUrl", "placeholderImage", "errorImage", "isCircular"],
         requireAll = false
     )
     fun loadImageWithGlide(
@@ -26,7 +32,6 @@ object ImageBindingAdapters {
         obj: Any?,
         placeholder: Any?,
         errorImage: Any?,
-        listener: RequestListener<Drawable?>?,
         isCircular: Boolean = false
     ) {
         val options = RequestOptions()
@@ -49,6 +54,31 @@ object ImageBindingAdapters {
             is File -> manager.load(obj)
             is Array<*> -> manager.load(obj)
             else -> manager.load(obj)
+        }
+
+        val listener = object : RequestListener<Drawable?> {
+            override fun onLoadFailed(
+                e: GlideException?,
+                model: Any?,
+                target: Target<Drawable?>?,
+                isFirstResource: Boolean
+            ): Boolean {
+                LogUtils.w(TAG, "failed loading $model")
+                return false
+            }
+
+            override fun onResourceReady(
+                resource: Drawable?,
+                model: Any?,
+                target: Target<Drawable?>?,
+                dataSource: DataSource?,
+                isFirstResource: Boolean
+            ): Boolean {
+
+                LogUtils.d(TAG, "onResourceReady loading $model")
+                return false
+            }
+
         }
 
         if (isCircular ) {

@@ -6,18 +6,24 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MediatorLiveData
 import com.test.basemodule.base.model.resource.UserResource
 import com.test.basemodule.base.model.resource.UserStatus
+import com.test.fasterpay.dataaccess.operator.FakeDataOperator
 import com.test.fasterpay.dataaccess.repository.UserRepo
 import com.test.fasterpay.ui.fragments.base.FasterPayBaseFragment
 import com.test.fasterpay.ui.fragments.base.FasterPayBaseViewModel
 import com.test.fasterpay.vo.User
 
-class SplashViewModel @ViewModelInject constructor(application: Application,val userReop: UserRepo)
-    : FasterPayBaseViewModel(application) {
+class SplashViewModel @ViewModelInject constructor(
+    application: Application,
+    private val userReop: UserRepo,
+    fakeDataOperator: FakeDataOperator
+): FasterPayBaseViewModel(application) {
     val loggedUser = MediatorLiveData<UserResource<User>>()
 
     init {
         initMediatorLiveDate()
         Handler().postDelayed( { toNextScreen() } ,3000)
+
+        fakeDataOperator.insertTestDataIfNeeded()
     }
 
     private fun initMediatorLiveDate() {
@@ -27,9 +33,13 @@ class SplashViewModel @ViewModelInject constructor(application: Application,val 
     }
 
     private fun toNextScreen() {
-        if (loggedUser.value?.status == UserStatus.SUCCESS)
+        if (loggedUser.value?.data != null)
             addAction(FasterPayBaseFragment.ACTION_TO_HOME)
         else
             addAction(SplashFragment.ACTION_TO_LOGIN)
+    }
+
+    companion object {
+        private const val TAG = "SplashViewModel"
     }
 }

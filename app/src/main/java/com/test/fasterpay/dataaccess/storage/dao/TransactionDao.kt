@@ -7,8 +7,8 @@ import io.reactivex.Completable
 
 @Dao
 interface TransactionDao {
-    @Query("select * from PastTransaction where walletId = :walletId")
-    fun getTransactionsByWalletId(walletId: String): LiveData<List<PastTransaction>>
+    @Query("select * from PastTransaction where walletId = :walletId ORDER BY day DESC LIMIT :limit")
+    fun getTransactionsByWalletId(walletId: Long, limit: Int): LiveData<List<PastTransaction>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addTransaction(transaction: PastTransaction): Completable

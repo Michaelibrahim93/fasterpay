@@ -6,7 +6,6 @@ open class MoneyTransaction(
     val fee: Double, //currency amount for not changing
     val totalAmount: Double,
     val isRefund: Boolean,
-    val valueInCurrency: Double,
     val description: String,
     val warning: String? = null,
     val source: Source

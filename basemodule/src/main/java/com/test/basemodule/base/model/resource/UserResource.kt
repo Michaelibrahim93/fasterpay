@@ -14,8 +14,8 @@ data class UserResource<T>(val status: UserStatus, val data: T?, val errors: Lis
             return UserResource(UserStatus.LOADING, data, null)
         }
 
-        fun <T> loggedOut(data: T?): UserResource<T> {
-            return UserResource(UserStatus.LOGGED_OUT, data, null)
+        fun <T> loggedOut(): UserResource<T> {
+            return UserResource(UserStatus.LOGGED_OUT, null, null)
         }
     }
 }

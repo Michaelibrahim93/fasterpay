@@ -37,4 +37,8 @@
     <string name="available_balance">Available balance</string>
     <string name="top_up">Top Up</string>
     <string name="vault">Vault</string>
+    <string name="no_transactions">No Transactions</string>
+    <string name="notifications">Notifications</string>
+    <string name="help_support"><![CDATA[Help & Support]]></string>
+    <string name="logout">Logout</string>
 </resources>

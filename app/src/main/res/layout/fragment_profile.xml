@@ -1,13 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.fragments.profile.ProfileFragment">
-
-    <TextView
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/profile" />
+        tools:context=".ui.fragments.profile.ProfileFragment"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/auth_padding"
+        android:gravity="center_horizontal">
 
-</FrameLayout>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            app:srcCompat="@drawable/faster_pay_text_logo"
+            android:layout_marginBottom="@dimen/margin_m"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/user_image_hw"
+            android:layout_height="@dimen/user_image_hw"
+            app:imageUrl="@{user.imageUrl}"
+            app:placeholderImage="@{@drawable/ic_profile}"
+            app:isCircular="@{true}"
+            android:layout_marginBottom="@dimen/margin_m"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{TextFormatter.formatUserName(user)}"
+            android:layout_marginBottom="@dimen/margin_m"
+            style="@style/TextSubtitleWhite"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{user.email}"
+            android:layout_marginBottom="@dimen/margin_m"
+            style="@style/TextRegularWhite"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{user.phoneNumber}"
+            android:layout_marginBottom="@dimen/margin_m"
+            style="@style/TextRegularWhite"/>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_top_corners"
+            android:orientation="vertical">
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/ProfileOptionsText"
+                android:text="@string/notifications"
+                android:drawableStart="@drawable/ic_notification"
+                android:onClick="@{() -> callbacks.clickedNotifications()}"/>
+            <View style="@style/GreySeparator"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/ProfileOptionsText"
+                android:text="@string/help_support"
+                android:drawableStart="@drawable/ic_help"
+                android:onClick="@{() -> callbacks.clickedHelp()}"/>
+            <View style="@style/GreySeparator"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/ProfileOptionsText"
+                android:text="@string/logout"
+                android:drawableStart="@drawable/ic_baseline_exit_to_app_24"
+                android:onClick="@{() -> callbacks.clickedLogout()}"/>
+            <View style="@style/GreySeparator"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <data>
+        <import type="androidx.lifecycle.LiveData"/>
+        <import type="com.test.fasterpay.vo.User"/>
+        <import type="com.test.fasterpay.ui.formatters.TextFormatter"/>
+
+        <variable
+            name="user"
+            type="LiveData&lt;User>" />
+
+        <variable
+            name="callbacks"
+            type="com.test.fasterpay.ui.fragments.profile.ProfileCallbacks" />
+    </data>
+</layout>

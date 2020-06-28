@@ -1,7 +1,7 @@
-package com.ontime.android.vo
+package com.test.basemodule.base.model.resource
 
 
-import com.ontime.android.vo.Status.*
+import com.test.basemodule.base.model.resource.Status.*
 
 /**
  * A generic class that holds a value with its loading status.

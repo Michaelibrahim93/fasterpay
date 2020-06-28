@@ -13,8 +13,7 @@ class PastTransaction(
     fee: Double,
     totalAmount: Double,
     isRefund: Boolean,
-    valueInCurrency: Double,
     description: String,
-    warning: String,
+    warning: String?,
     source: Source
-) : MoneyTransaction(currency, fee, totalAmount, isRefund, valueInCurrency, description, warning, source)
+) : MoneyTransaction(currency, fee, totalAmount, isRefund, description, warning, source)

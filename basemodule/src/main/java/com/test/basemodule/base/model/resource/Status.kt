@@ -1,4 +1,4 @@
-package com.ontime.android.vo
+package com.test.basemodule.base.model.resource
 
 /**
  * Status of a resource that is provided to the UI.

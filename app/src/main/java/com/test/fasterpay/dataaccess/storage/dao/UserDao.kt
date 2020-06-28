@@ -15,6 +15,9 @@ interface UserDao {
     @Query("select * from User where isLoggedUser = 1")
     fun getLoggedInUserLiveData(): LiveData<User>
 
+    @Query("select * from User where isLoggedUser = 1")
+    fun getLoggedInUserSync(): User
+
     @Query("select * from User where email = :email")
     fun getUserByEmail(email: String): Single<User>
 

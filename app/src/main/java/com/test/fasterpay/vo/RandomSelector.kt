@@ -21,4 +21,13 @@ object RandomSelector {
             Currency(18.13, "€")
         ).selectRandom()
     }
+
+    fun nextSource(): Source {
+        return listOf(
+            Source("Google", "https://media-exp1.licdn.com/dms/image/C4D0BAQHiNSL4Or29cg/company-logo_200_200/0?e=2159024400&v=beta&t=0e00tehBFFtuqgUCfAijpOkoBl89jxOTIe_k9HHpi_4"),
+            Source("Facebook", "https://lh5.googleusercontent.com/proxy/3tZhvZdKWIMN2MOhUFUeLj1VYkSpnRBG0KiDKZ6drEEU-6Nf73V6bX2k_dKt0SLskbf1vMozXODP5yQNb-zBtk58qTg_ha17r-4cJMeDCVVC"),
+            Source("Amazon", "https://store-images.s-microsoft.com/image/apps.55760.13510798887500513.d2cc5d6f-e9f4-4850-a5d6-bbd7976d6c2d.ed4ef02c-b3d1-497d-8297-1a54e79abfad?mode=scale&q=90&h=200&w=200&background=%230078D7"),
+            Source("ebay", "https://www.talkwalker.com/Pictures/Brands/small/csm-talkwalker-ebay-fce6911624..jpg")
+            ).selectRandom()
+    }
 }

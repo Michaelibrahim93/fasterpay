@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.test.fasterpay.R
 import com.test.fasterpay.vo.PastTransaction
+import com.test.fasterpay.vo.User
 import com.test.fasterpay.vo.Wallet
 import java.lang.StringBuilder
 import java.text.SimpleDateFormat
@@ -50,14 +51,21 @@ object TextFormatter {
     fun formatPaymentTextColor(view: View, transaction: PastTransaction): Int {
         return ContextCompat.getColor(
             view.context,
-            if (!transaction.warning.isNullOrEmpty()) R.color.app_grey
-            else if (transaction.isRefund) R.color.app_grey
+            if (!transaction.warning.isNullOrEmpty()) R.color.app_red
+            else if (transaction.isRefund) R.color.app_green
             else R.color.black
         )
     }
 
     @JvmStatic
-    fun formatWalletBalance(wallet: Wallet): String {
-        return "${wallet.currency.symbol}  ${wallet.balance}"
+    fun formatWalletBalance(wallet: Wallet?): String {
+        return if (wallet == null) ""
+        else "${wallet.currency.symbol}  ${String.format("%.2f", wallet.balance)}"
+    }
+
+    @JvmStatic
+    fun formatUserName(user: User?): String {
+        return if (user == null) ""
+        else "${user.firstName} ${user.lastName}"
     }
 }

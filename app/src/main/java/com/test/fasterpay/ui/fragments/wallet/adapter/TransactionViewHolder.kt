@@ -10,6 +10,7 @@ class TransactionViewHolder(
     toFormat: SimpleDateFormat
 ) : BaseViewHolder<UiTransaction, ItemTransactionBinding>(binding) {
     init {
+        binding.rootView = binding.root
         binding.fromFormatter = fromFormat
         binding.toFormatter = toFormat
     }

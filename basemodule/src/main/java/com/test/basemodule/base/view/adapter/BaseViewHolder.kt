@@ -28,7 +28,7 @@ abstract class BaseViewHolder<DataType, Binding : ViewDataBinding>(protected val
     protected abstract fun onBindView(itemData: DataType)
 
     protected val context: Context
-        protected get() = itemView.context
+        get() = itemView.context
 
 
 }

@@ -44,6 +44,37 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="TextRegularBlack" parent="TextRegularWhite">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextSubtitleBlack" parent="TextSubtitleWhite">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="ProfileOptionsText" parent="TextSubtitleBlack">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="drawableEndCompat">@drawable/ic_baseline_arrow_right</item>
+        <item name="android:padding">@dimen/default_padding</item>
+        <item name="android:drawablePadding">@dimen/default_padding</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="GreySeparator">
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="background">@color/app_grey</item>
+    </style>
+
+    <style name="TextSmallBlack" parent="TextSmallWhite">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextTitleBlack" parent="TextTitleWhite">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
     <style name="EditTextAuthStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/text_field_height</item>

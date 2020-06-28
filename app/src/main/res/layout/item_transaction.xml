@@ -4,8 +4,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/default_padding"
-        android:background="@color/white">
+        android:padding="@dimen/default_padding">
 
         <TextView android:id="@+id/iTTextViewDate"
             android:layout_width="wrap_content"
@@ -36,7 +35,7 @@
             app:layout_constraintTop_toTopOf="@id/iTImageView"
             app:layout_constraintBottom_toBottomOf="@id/iTImageView"
             android:text="@{TextFormatter.formatPaymentValue(itemData.transaction)}"
-            android:textColor="@{TextFormatter.formatPaymentTextColor(root, itemData.transaction)}"/>
+            android:textColor="@{TextFormatter.formatPaymentTextColor(rootView, itemData.transaction)}"/>
 
         <TextView android:id="@+id/iTTextViewDesc"
             android:layout_width="0dp"
@@ -56,7 +55,7 @@
             app:layout_constraintEnd_toEndOf="@id/iTTextViewDesc"
             android:layout_marginTop="@dimen/margin_s"
             android:maxLines="1"
-            android:text="@{TextFormatter.formatPaymentText(root, itemData.transaction)}"/>
+            android:text="@{TextFormatter.formatPaymentText(rootView, itemData.transaction)}"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <data>
@@ -73,7 +72,7 @@
             name="toFormatter"
             type="java.text.SimpleDateFormat" />
         <variable
-            name="root"
+            name="rootView"
             type="android.view.View" />
     </data>
 </layout>
