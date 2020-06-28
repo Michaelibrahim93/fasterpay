@@ -2,6 +2,7 @@ package com.test.fasterpay.vo
 
 
 open class MoneyTransaction(
+    val transactionId: Long,
     val currency: Currency,
     val fee: Double, //currency amount for not changing
     val totalAmount: Double,

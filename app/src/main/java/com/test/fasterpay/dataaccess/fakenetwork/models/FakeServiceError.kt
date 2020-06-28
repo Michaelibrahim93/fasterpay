@@ -1,5 +1,6 @@
 package com.test.fasterpay.dataaccess.fakenetwork.models
 
+import android.app.Application
 import android.content.Context
 import com.test.fasterpay.R
 
@@ -36,6 +37,11 @@ class FakeServiceError(
         fun registrationFailed(context: Context): FakeServiceError {
             return FakeServiceError(context.getString(R.string.already_registered_user)
                 , "registrationFailed")
+        }
+
+        fun sameTransaction(context: Context): Throwable {
+            return FakeServiceError(context.getString(R.string.transaction_already_done)
+                , "transaction already executed before")
         }
     }
 }

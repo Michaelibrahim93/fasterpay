@@ -88,6 +88,7 @@ class FakeDataOperator @Inject constructor(
         val transType = Random.nextInt(5)
 
         return PastTransaction(
+            transactionId = i.toLong(),
             walletId = Random.nextLong(1, 5),
             day = databaseDateFormat.format(fakeDate()),
             currency = RandomSelector.selectCurrency(),

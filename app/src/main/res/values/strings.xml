@@ -41,4 +41,5 @@
     <string name="notifications">Notifications</string>
     <string name="help_support"><![CDATA[Help & Support]]></string>
     <string name="logout">Logout</string>
+    <string name="transaction_already_done">Transaction has been executed before please try other one.</string>
 </resources>

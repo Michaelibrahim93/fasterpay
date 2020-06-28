@@ -5,11 +5,10 @@ import android.util.Log
 import com.test.fasterpay.dataaccess.fakenetwork.models.CredentialsForm
 import com.test.fasterpay.dataaccess.fakenetwork.models.FakeServiceError
 import com.test.fasterpay.dataaccess.storage.dao.CredentialsDao
+import com.test.fasterpay.dataaccess.storage.dao.TransactionDao
 import com.test.fasterpay.dataaccess.storage.dao.UserDao
 import com.test.fasterpay.dataaccess.storage.dao.WalletDao
-import com.test.fasterpay.vo.RandomSelector
-import com.test.fasterpay.vo.User
-import com.test.fasterpay.vo.Wallet
+import com.test.fasterpay.vo.*
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -21,7 +20,8 @@ class FakeWebServiceImpl @Inject constructor(
     private val application: Application,
     private val userDao: UserDao,
     private val credentialsDao: CredentialsDao,
-    private val walletDao: WalletDao
+    private val walletDao: WalletDao,
+    private val transactionDao: TransactionDao
 ) : FakeWebService{
     override fun login(credentialsForm: CredentialsForm): Observable<User> {
         return verifyCredentials(credentialsForm)
@@ -46,6 +46,16 @@ class FakeWebServiceImpl @Inject constructor(
                     )).doOnComplete { Log.d(TAG, "signUp: wallet added") }
                     .subscribe()
             }
+    }
+
+    override fun addTransaction(transaction: MoneyTransaction, walletId: Long): Observable<PastTransaction> {
+        val pastTransaction = PastTransaction.generateTransaction(transaction, walletId, Constants.databaseDateFormat())
+        return transactionDao.countItems(walletId, transaction.transactionId)
+            .flatMap {
+                if (it > 0) throw FakeServiceError.sameTransaction(application)
+                transactionDao.addTransaction(pastTransaction)
+            }.toObservable()
+            .map { pastTransaction }
     }
 
     //helping functions
