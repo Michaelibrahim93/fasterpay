@@ -8,6 +8,6 @@ data class Wallet(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
     val currency: Currency,
-    var pointsBalance: Double,
+    var balance: Double,
     val ownerId: Long
 )

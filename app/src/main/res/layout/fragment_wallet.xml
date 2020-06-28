@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.fragments.wallet.WalletFragment"
+        android:paddingTop="@dimen/auth_padding">
+        <androidx.appcompat.widget.AppCompatImageView android:id="@+id/logo"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/faster_pay_text_logo"/>
+        <TextView android:id="@+id/availableBalanceWord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/logo"
+            android:layout_marginTop="@dimen/margin_m"
+            style="@style/TextSmallWhite"
+            android:text="@string/available_balance"
+            android:textAllCaps="true"/>
+
+        <TextView android:id="@+id/availableBalance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/availableBalanceWord"
+            android:layout_marginTop="@dimen/margin_m"
+            style="@style/TextExtraBig"
+            android:text="@{TextFormatter.formatWalletBalance(wallet)}"/>
+        <androidx.constraintlayout.widget.Guideline android:id="@+id/guidelineV50"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5"/>
+        <LinearLayout android:id="@+id/layoutTopUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/margin_l"
+            android:layout_marginEnd="@dimen/margin_xxl"
+            app:layout_constraintTop_toBottomOf="@id/availableBalance"
+            app:layout_constraintEnd_toStartOf="@id/guidelineV50"
+            android:gravity="center_horizontal"
+            android:onClick="@{() -> callbacks.clickedTopUp()}">
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_top_up"
+                android:layout_marginBottom="@dimen/margin_m"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/top_up"
+                style="@style/TextRegularWhite"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="@dimen/margin_xxl"
+            app:layout_constraintTop_toTopOf="@id/layoutTopUp"
+            app:layout_constraintStart_toEndOf="@id/guidelineV50"
+            android:gravity="center_horizontal"
+            android:onClick="@{() -> callbacks.clickedVault()}">
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_vault"
+                android:layout_marginBottom="@dimen/margin_m"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/vault"
+                style="@style/TextRegularWhite"/>
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView android:id="@+id/fWRecyclerTransactions"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/layoutTopUp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/rounded_top_corners"
+            android:paddingTop="@dimen/sheet_half_radius"
+            android:layout_marginTop="@dimen/margin_l"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <data>
+        <import type="androidx.lifecycle.MutableLiveData"/>
+        <import type="com.test.fasterpay.vo.Wallet"/>
+        <import type="com.test.fasterpay.ui.formatters.TextFormatter"/>
+        <variable
+            name="wallet"
+            type="MutableLiveData&lt;Wallet>" />
+        <variable
+            name="callbacks"
+            type="com.test.fasterpay.ui.fragments.wallet.WalletCallbacks" />
+    </data>
+</layout>

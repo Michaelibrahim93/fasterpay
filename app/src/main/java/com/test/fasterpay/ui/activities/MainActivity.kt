@@ -1,4 +1,4 @@
-package com.test.fasterpay.ui
+package com.test.fasterpay.ui.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

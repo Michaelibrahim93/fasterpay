@@ -14,7 +14,7 @@ interface CredentialsDao {
     fun getCredentialsByEmail(email: String): Single<CredentialsForm>
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    fun addCredentials(credentialsForm: CredentialsForm): Completable
+    fun addCredentials(credentialsForm: CredentialsForm): Single<Long>
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
     fun addCredentialsList(list: List<CredentialsForm>): Completable

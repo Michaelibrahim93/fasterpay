@@ -18,7 +18,7 @@ import java.io.File
  */
 object ImageBindingAdapters {
     @BindingAdapter(
-        value = ["android:src", "placeholderImage", "errorImage", "imageRequestListener", "isCircular"],
+        value = ["imageUrl", "placeholderImage", "errorImage", "imageRequestListener", "isCircular"],
         requireAll = false
     )
     fun loadImageWithGlide(

@@ -1,8 +1,9 @@
 package com.test.basemodule.base.view.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.AsyncDifferConfig
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -13,32 +14,33 @@ import java.util.*
 /**
  * Created by Michael on 12/25/17.
  */
-abstract class AbstractRecyclerAdapter<E, K : BaseViewHolder<E>>
-    : ListAdapter<E, K> {
-    protected var mData: List<E> = ArrayList()
-    protected var clickListener: OnItemClickListener<E>? =
+abstract class AbstractRecyclerAdapter<DataType, Binding : ViewDataBinding, ViewHolder : BaseViewHolder<DataType, Binding>>
+    : ListAdapter<DataType, ViewHolder> {
+    protected var mData: List<DataType> = ArrayList()
+    protected var clickListener: OnItemClickListener<DataType>? =
         null
     protected var isVertical = true
     protected abstract val viewRes: Int
 
     constructor(
-        clickListener: OnItemClickListener<E>? = null
-        , diffCallback: DiffUtil.ItemCallback<E>? = null)
+        clickListener: OnItemClickListener<DataType>? = null
+        , diffCallback: DiffUtil.ItemCallback<DataType>? = null)
             : super(createConfiguration(diffCallback)) {
         this.clickListener = clickListener
     }
 
-    abstract fun onCreateDefaultViewHolder(viewGroup: ViewGroup?, viewType: Int, itemView: View): K
-    abstract fun onViewHolderBond(k: K, position: Int)
+    abstract fun onCreateDefaultViewHolder(viewGroup: ViewGroup?, viewType: Int, binding: Binding): ViewHolder
+    abstract fun onViewHolderBond(k: ViewHolder, position: Int)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): K {
-        val itemView = LayoutInflater.from(parent.context).inflate(viewRes, parent, false)
-        val viewHolder = onCreateDefaultViewHolder(parent, viewType, itemView)
-        viewHolder.setOnItemClickListener(clickListener)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding: Binding = DataBindingUtil.inflate(layoutInflater, viewRes, parent, false)
+        val viewHolder = onCreateDefaultViewHolder(parent, viewType, binding)
+        viewHolder.onItemClickListener = clickListener
         return viewHolder
     }
 
-    override fun onBindViewHolder(k: K, position: Int) {
+    override fun onBindViewHolder(k: ViewHolder, position: Int) {
         k.bind(mData[position])
         onViewHolderBond(k, position)
     }
@@ -47,7 +49,7 @@ abstract class AbstractRecyclerAdapter<E, K : BaseViewHolder<E>>
         return mData.size
     }
 
-    fun setData(mData: List<E>) {
+    fun setData(mData: List<DataType>) {
         this.mData = mData
         notifyDataSetChanged()
     }

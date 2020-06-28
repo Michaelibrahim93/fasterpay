@@ -10,11 +10,12 @@ import com.test.fasterpay.dataaccess.storage.dao.TransactionDao
 import com.test.fasterpay.dataaccess.storage.dao.UserDao
 import com.test.fasterpay.dataaccess.storage.dao.WalletDao
 import com.test.fasterpay.vo.MoneyTransaction
+import com.test.fasterpay.vo.PastTransaction
 import com.test.fasterpay.vo.User
 import com.test.fasterpay.vo.Wallet
 
 @Database(
-    entities = [User::class, MoneyTransaction::class, Wallet::class, CredentialsForm::class],
+    entities = [User::class, PastTransaction::class, Wallet::class, CredentialsForm::class],
     version = 1,
     exportSchema = false
 )

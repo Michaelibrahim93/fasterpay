@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/default_padding"
+        android:background="@color/white">
+
+        <TextView android:id="@+id/iTTextViewDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextRegularWhite"
+            android:paddingBottom="@dimen/default_padding"
+            android:textColor="@color/app_grey"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:visibleGone="@{itemData.isFirst}"
+            android:text="@{TextFormatter.formatDate(fromFormatter, toFormatter, itemData.transaction.day)}"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iTImageView"
+            android:layout_width="@dimen/item_image_hw"
+            android:layout_height="@dimen/item_image_hw"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iTTextViewDate"
+            app:imageUrl="@{itemData.transaction.source.logoUrl}"
+            app:placeholderImage="@{@drawable/ic_security_settings}"
+            app:isCircular="@{true}"/>
+
+        <TextView android:id="@+id/iTTextViewValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iTImageView"
+            app:layout_constraintBottom_toBottomOf="@id/iTImageView"
+            android:text="@{TextFormatter.formatPaymentValue(itemData.transaction)}"
+            android:textColor="@{TextFormatter.formatPaymentTextColor(root, itemData.transaction)}"/>
+
+        <TextView android:id="@+id/iTTextViewDesc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/iTImageView"
+            app:layout_constraintStart_toEndOf="@id/iTImageView"
+            app:layout_constraintEnd_toStartOf="@id/iTTextViewValue"
+            android:maxLines="1"
+            android:layout_marginStart="@dimen/default_padding"
+            android:text="@{itemData.transaction.description}"/>
+
+        <TextView android:id="@+id/iTTextViewPaymentText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/iTTextViewDesc"
+            app:layout_constraintStart_toStartOf="@id/iTTextViewDesc"
+            app:layout_constraintEnd_toEndOf="@id/iTTextViewDesc"
+            android:layout_marginTop="@dimen/margin_s"
+            android:maxLines="1"
+            android:text="@{TextFormatter.formatPaymentText(root, itemData.transaction)}"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <data>
+        <import type="com.test.fasterpay.ui.fragments.wallet.adapter.UiTransaction"/>
+        <import type="com.test.fasterpay.vo.PastTransaction"/>
+        <import type="com.test.fasterpay.ui.formatters.TextFormatter"/>
+        <variable
+            name="itemData"
+            type="UiTransaction"/>
+        <variable
+            name="fromFormatter"
+            type="java.text.SimpleDateFormat" />
+        <variable
+            name="toFormatter"
+            type="java.text.SimpleDateFormat" />
+        <variable
+            name="root"
+            type="android.view.View" />
+    </data>
+</layout>

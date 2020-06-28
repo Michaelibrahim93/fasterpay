@@ -53,6 +53,7 @@
         <item name="android:background">@drawable/rounded_corner_semi_transparent</item>
         <item name="android:paddingStart">@dimen/default_padding</item>
         <item name="android:paddingEnd">@dimen/default_padding</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="BtnOrangeStyle">

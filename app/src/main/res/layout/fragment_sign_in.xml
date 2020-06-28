@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <data>
-        <import type="androidx.lifecycle.MutableLiveData" />
-        <variable
-            name="email"
-            type="MutableLiveData&lt;String>" />
-        <variable
-            name="password"
-            type="MutableLiveData&lt;String>" />
-        <variable
-            name="callbacks"
-            type="com.test.fasterpay.ui.fragments.signin.LoginCallbacks" />
-    </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -28,7 +17,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"/>
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat = "@drawable/faster_pay_text_logo"
@@ -56,7 +45,7 @@
                 android:text="@string/user_your"
                 android:layout_marginEnd="@dimen/margin_xs"
                 style="@style/TextRegularWhite"/>
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat = "@drawable/passport_logo"
@@ -72,8 +61,9 @@
             style="@style/EditTextAuthStyle"
             android:inputType="textEmailAddress"
             android:hint="@string/email"
-            android:layout_marginBottom="@dimen/margin_m"
-            android:importantForAutofill="no"
+            android:layout_marginBottom="@dimen/margin_l"
+            android:importantForAutofill="yes"
+            android:autofillHints=""
             android:text="@={email}"/>
 
         <EditText android:id="@+id/fSIEditTextPassword"
@@ -81,7 +71,9 @@
             android:inputType="textPassword"
             android:hint="@string/password"
             android:layout_marginBottom="@dimen/margin_l"
-            android:text="@={password}"/>
+            android:text="@={password}"
+            android:importantForAutofill="yes"
+            android:autofillHints=""/>
 
         <TextView android:id="@+id/fSITextViewForgotPassword"
             android:layout_width="wrap_content"
@@ -110,4 +102,17 @@
             android:layout_height="0dp"
             android:layout_weight="0.7"/>
     </LinearLayout>
+
+    <data>
+        <import type="androidx.lifecycle.MutableLiveData" />
+        <variable
+            name="email"
+            type="MutableLiveData&lt;String>" />
+        <variable
+            name="password"
+            type="MutableLiveData&lt;String>" />
+        <variable
+            name="callbacks"
+            type="com.test.fasterpay.ui.fragments.signin.LoginCallbacks" />
+    </data>
 </layout>

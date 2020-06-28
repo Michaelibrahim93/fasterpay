@@ -9,4 +9,7 @@
     <color name="white">#ffffff</color>
     <color name="white_semi_transparent">#88ffffff</color>
     <color name="black">#000000</color>
+    <color name="app_grey">#8A8A8A</color>
+    <color name="app_red">#F25B59</color>
+    <color name="app_green">#1FBC40</color>
 </resources>
