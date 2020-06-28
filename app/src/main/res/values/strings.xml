@@ -42,4 +42,7 @@
     <string name="help_support"><![CDATA[Help & Support]]></string>
     <string name="logout">Logout</string>
     <string name="transaction_already_done">Transaction has been executed before please try other one.</string>
+    <string name="place_qr_code_frame">Place QR code in the frame to scan it</string>
+    <string name="camera_error">\"Camera initialization error: %s</string>
+    <string name="invalid_qr_code">Invalid QR code</string>
 </resources>

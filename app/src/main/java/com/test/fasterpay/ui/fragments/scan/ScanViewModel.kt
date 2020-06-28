@@ -1,7 +1,26 @@
 package com.test.fasterpay.ui.fragments.scan
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.annotation.WorkerThread
+import androidx.hilt.lifecycle.ViewModelInject
+import com.google.zxing.Result
+import com.test.fasterpay.R
+import com.test.fasterpay.ui.fragments.base.FasterPayBaseViewModel
+import com.test.fasterpay.util.TransactionDecoder
+import com.test.fasterpay.vo.MoneyTransaction
 
-class ScanViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
+class ScanViewModel @ViewModelInject constructor(
+    application: Application,
+    private val transactionDecoder: TransactionDecoder
+) : FasterPayBaseViewModel(application) {
+
+    @WorkerThread
+    fun onQrCodeDetected(it: Result) {
+        try {
+            val transaction = transactionDecoder.decodeTransaction(it.text)
+            addAction(ScanFragment.ACTION_TRANSACTION_FOUND, transaction)
+        } catch (throwable: Throwable) {
+            sendError(getContext().getString(R.string.invalid_qr_code))
+        }
+    }
 }

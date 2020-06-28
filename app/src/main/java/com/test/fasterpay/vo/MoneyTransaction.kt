@@ -1,6 +1,9 @@
 package com.test.fasterpay.vo
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 open class MoneyTransaction(
     val transactionId: Long,
     val currency: Currency,
@@ -10,4 +13,4 @@ open class MoneyTransaction(
     val description: String,
     val warning: String? = null,
     val source: Source
-)
+) : Parcelable
