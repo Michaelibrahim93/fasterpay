@@ -27,6 +27,18 @@ abstract class BaseFragment<ViewModel : BaseViewModel> : Fragment(), LoadingView
         viewModel = provideViewModel(viewModelClass)
     }
 
+    inline fun<reified FragmentContainer> findFragmentContainer(): FragmentContainer? {
+        var fragment = parentFragment
+        while (fragment != null) {
+            if (fragment is FragmentContainer)
+                return fragment
+            fragment = fragment.parentFragment
+        }
+
+        return if (activity is FragmentContainer) activity as FragmentContainer
+                else null
+    }
+
     //this function should be implemented in project base fragment.
     abstract fun provideViewModel(viewModelClass: Class<ViewModel>): ViewModel
 

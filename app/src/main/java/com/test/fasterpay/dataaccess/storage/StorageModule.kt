@@ -3,10 +3,7 @@ package com.test.fasterpay.dataaccess.storage
 import android.app.Application
 import android.content.SharedPreferences
 import androidx.room.Room
-import com.test.fasterpay.dataaccess.storage.dao.CredentialsDao
-import com.test.fasterpay.dataaccess.storage.dao.TransactionDao
-import com.test.fasterpay.dataaccess.storage.dao.UserDao
-import com.test.fasterpay.dataaccess.storage.dao.WalletDao
+import com.test.fasterpay.dataaccess.storage.dao.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,7 +32,12 @@ object StorageModule {
 
     @Provides
     fun provideTransactionsDao(database: FasterPayDatabase): TransactionDao {
-        return database.moneyTransactionDao()
+        return database.pastTransactionDao()
+    }
+
+    @Provides
+    fun provideFutureTransactionDao(database: FasterPayDatabase): FutureTransactionDao {
+        return database.futureTransactionDao()
     }
 
     @Provides

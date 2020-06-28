@@ -6,8 +6,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import com.google.zxing.Result
 import com.test.fasterpay.R
 import com.test.fasterpay.ui.fragments.base.FasterPayBaseViewModel
-import com.test.fasterpay.util.TransactionDecoder
-import com.test.fasterpay.vo.MoneyTransaction
+import com.test.fasterpay.dataaccess.operator.TransactionDecoder
 
 class ScanViewModel @ViewModelInject constructor(
     application: Application,

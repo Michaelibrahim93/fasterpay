@@ -8,6 +8,7 @@ import com.test.fasterpay.dataaccess.storage.dao.CredentialsDao
 import com.test.fasterpay.dataaccess.storage.dao.TransactionDao
 import com.test.fasterpay.dataaccess.storage.dao.UserDao
 import com.test.fasterpay.dataaccess.storage.dao.WalletDao
+import com.test.fasterpay.util.CurrencyCalculator
 import com.test.fasterpay.vo.*
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -53,6 +54,9 @@ class FakeWebServiceImpl @Inject constructor(
         return transactionDao.countItems(walletId, transaction.transactionId)
             .flatMap {
                 if (it > 0) throw FakeServiceError.sameTransaction(application)
+                val wallet = walletDao.getWalletSync(walletId)
+                wallet.balance -= CurrencyCalculator.toCurrencyValue(pastTransaction.totalAmount, pastTransaction.currency, wallet.currency)
+                walletDao.addWallet(wallet).subscribe()
                 transactionDao.addTransaction(pastTransaction)
             }.toObservable()
             .map { pastTransaction }

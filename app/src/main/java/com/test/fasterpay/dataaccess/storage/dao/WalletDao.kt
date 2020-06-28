@@ -11,6 +11,9 @@ interface WalletDao {
     @Query("select * from Wallet where ownerId = :userId")
     fun getWalletByUserId(userId: Long): LiveData<Wallet>
 
+    @Query("select * from Wallet where id = :id")
+    fun getWalletSync(id: Long): Wallet
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addWallet(wallet: Wallet): Completable
 

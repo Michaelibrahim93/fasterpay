@@ -18,7 +18,7 @@ class MainViewModel @ViewModelInject constructor(
 
     init {
         ldUser.addSource(userRepo.getLoggedInUser()) {
-            ldUser.value = if (ldUser.value != null && it.data == null) UserResource.loggedOut()
+            ldUser.value = if (ldUser.value?.data != null && it.data == null) UserResource.loggedOut()
                 else it
         }
     }

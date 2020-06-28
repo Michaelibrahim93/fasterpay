@@ -71,6 +71,10 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="TextSmallGrey" parent="TextSmallWhite">
+        <item name="android:textColor">@color/app_grey_blue</item>
+    </style>
+
     <style name="TextTitleBlack" parent="TextTitleWhite">
         <item name="android:textColor">@color/black</item>
     </style>

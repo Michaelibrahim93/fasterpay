@@ -1,32 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.fragments.transactiondetails.TransactionDetailsFragment"
-        android:paddingTop="@dimen/auth_padding">
-
+        android:orientation="vertical">
+        <androidx.appcompat.widget.Toolbar android:id="@+id/fTDToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="@string/payment"
+            app:titleTextColor="@color/white"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            android:layout_marginBottom="@dimen/margin_xl"/>
         <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="@dimen/user_image_hw"
-            android:layout_height="@dimen/user_image_hw"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            android:layout_width="@dimen/company_image_hw"
+            android:layout_height="@dimen/company_image_hw"
+            app:imageUrl="@{transaction.transaction.source.logoUrl}"
+            app:placeholderImage="@{@drawable/company_placeholder}"
+            app:isCircular="@{true}"
+            android:layout_marginBottom="@dimen/margin_xl"
+            android:layout_gravity="center_horizontal"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/rounded_top_corners"
+            android:paddingTop="@dimen/default_padding"
+            android:orientation="vertical">
+            <TextView android:id="@+id/textViewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextTitleBlack"
+                android:layout_marginStart="@dimen/default_padding"
+                android:text="@{transaction.transaction.description}"/>
+            <View style="@style/GreySeparator"
+                android:layout_marginTop="@dimen/default_padding"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextSmallGrey"
+                android:layout_marginTop="@dimen/default_padding"
+                android:layout_marginStart="@dimen/default_padding"
+                android:text="@string/total_amount"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextTitleBlack"
+                android:layout_marginStart="@dimen/default_padding"
+                android:text="@{TextFormatter.formatTotalAmount(transaction)}"
+                android:layout_marginTop="@dimen/margin_xl"
+                android:layout_marginBottom="@dimen/margin_xl"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextSmallGrey"
+                android:layout_marginStart="@dimen/default_padding"
+                android:text="@string/subtotal"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextSmallBlack"
+                android:layout_marginStart="@dimen/default_padding"
+                android:text="@{TextFormatter.formatSubtotal(transaction)}"
+                android:layout_marginTop="@dimen/margin_s"
+                android:layout_marginBottom="@dimen/margin_xl"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextSmallGrey"
+                android:layout_marginStart="@dimen/default_padding"
+                android:text="@string/fee"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextSmallBlack"
+                android:layout_marginStart="@dimen/default_padding"
+                android:text="@{TextFormatter.formatFee(transaction)}"
+                android:layout_marginTop="@dimen/margin_s"
+                android:layout_marginBottom="@dimen/margin_xxl"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/light_grey"
+                android:padding="@dimen/default_padding">
+                <TextView android:id="@+id/textDefaultAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextSmallGrey"
+                    android:text="@string/default_payment_method"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+                <TextView android:id="@+id/textFasterPay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextRegularBlack"
+                    android:text="@string/fasterbay_balance"
+                    app:layout_constraintTop_toBottomOf="@id/textDefaultAmount"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="@dimen/default_padding"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextSmallGrey"
+                    android:text="@string/available_balance"
+                    app:layout_constraintTop_toTopOf="@id/textDefaultAmount"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextRegularBlack"
+                    android:text="@{TextFormatter.formatWalletBalance(transaction.wallet)}"
+                    app:layout_constraintTop_toTopOf="@id/textFasterPay"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <Button
+                style="@style/BtnOrangeStyle"
+                android:layout_margin="@dimen/auth_padding"
+                android:text="@{TextFormatter.formatPayText(rootView, transaction)}"
+                android:enabled="@{transaction.canBuy}"
+                android:onClick="@{() -> callbacks.clickedPay()}"/>
+        </LinearLayout>
+    </LinearLayout>
     <data>
         <import type="androidx.lifecycle.LiveData"/>
         <import type="com.test.fasterpay.vo.MoneyTransaction"/>
         <import type="com.test.fasterpay.vo.Wallet"/>
+        <import type="com.test.fasterpay.ui.fragments.transactiondetails.model.UiTransactionDetails"/>
         <import type="com.test.fasterpay.ui.formatters.TextFormatter"/>
 
         <variable
-            name="wallet"
-            type="LiveData&lt;Wallet>" />
-        <variable
             name="transaction"
-            type="LiveData&lt;MoneyTransaction>" />
+            type="LiveData&lt;UiTransactionDetails>" />
+
+        <variable
+            name="rootView"
+            type="android.view.View" />
+
+        <variable
+            name="callbacks"
+            type="com.test.fasterpay.ui.fragments.transactiondetails.TransactionDetailsCallbacks" />
+
     </data>
 </layout>

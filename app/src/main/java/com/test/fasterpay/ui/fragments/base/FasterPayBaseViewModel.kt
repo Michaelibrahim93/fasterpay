@@ -35,10 +35,10 @@ open class FasterPayBaseViewModel(application: Application) : BaseViewModel(appl
     }
 
     fun sendError(message: String) {
-        ldUiError.value = UiError(null, message,
+        ldUiError.postValue(UiError(null, message,
             mustRetry = false,
             isServerError = true,
             runnable = null
-        )
+        ))
     }
 }

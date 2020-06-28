@@ -25,7 +25,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iTTextViewDate"
             app:imageUrl="@{itemData.transaction.source.logoUrl}"
-            app:placeholderImage="@{@drawable/ic_security_settings}"
+            app:placeholderImage="@{@drawable/company_placeholder}"
             app:isCircular="@{true}"/>
 
         <TextView android:id="@+id/iTTextViewValue"

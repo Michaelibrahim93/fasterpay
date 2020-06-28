@@ -45,4 +45,12 @@
     <string name="place_qr_code_frame">Place QR code in the frame to scan it</string>
     <string name="camera_error">\"Camera initialization error: %s</string>
     <string name="invalid_qr_code">Invalid QR code</string>
+    <string name="payment">Payment</string>
+    <string name="total_amount">Total amount</string>
+    <string name="default_payment_method">Default payment method</string>
+    <string name="fasterbay_balance">FasterBay balance</string>
+    <string name="subtotal">Subtotal</string>
+    <string name="fee">Fee:</string>
+    <string name="pay">Pay</string>
+    <string name="congrats_transaction_completed">"Congratulations transactions has been completed successfully "</string>
 </resources>

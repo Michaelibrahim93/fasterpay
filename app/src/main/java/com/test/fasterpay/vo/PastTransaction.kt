@@ -1,16 +1,16 @@
 package com.test.fasterpay.vo
 
+import android.annotation.SuppressLint
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 import java.text.SimpleDateFormat
 import java.util.*
 
+@SuppressLint("ParcelCreator")
 @Entity
 class PastTransaction(
-    @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
     val walletId: Long,
     val day: String,
+    id: Long = 0,
     transactionId: Long,
     currency: Currency,
     fee: Double,
@@ -19,7 +19,7 @@ class PastTransaction(
     description: String,
     warning: String?,
     source: Source
-) : MoneyTransaction(transactionId, currency, fee, totalAmount, isRefund, description, warning, source) {
+) : MoneyTransaction(id, transactionId, currency, fee, totalAmount, isRefund, description, warning, source) {
     companion object {
         fun generateTransaction(transaction: MoneyTransaction, walletId: Long,
                                 databaseDateFormat: SimpleDateFormat): PastTransaction {

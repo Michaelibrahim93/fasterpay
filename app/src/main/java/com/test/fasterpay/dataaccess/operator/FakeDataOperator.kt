@@ -4,10 +4,7 @@ import android.content.SharedPreferences
 import android.util.Log
 import com.test.basemodule.utils.DateUtils
 import com.test.fasterpay.dataaccess.fakenetwork.models.CredentialsForm
-import com.test.fasterpay.dataaccess.storage.dao.CredentialsDao
-import com.test.fasterpay.dataaccess.storage.dao.TransactionDao
-import com.test.fasterpay.dataaccess.storage.dao.UserDao
-import com.test.fasterpay.dataaccess.storage.dao.WalletDao
+import com.test.fasterpay.dataaccess.storage.dao.*
 import com.test.fasterpay.util.ExecutorsModule
 import com.test.fasterpay.vo.*
 import java.text.SimpleDateFormat
@@ -23,6 +20,7 @@ class FakeDataOperator @Inject constructor(
     private val userDao: UserDao,
     private val walletDao: WalletDao,
     private val transactionDao: TransactionDao,
+    private val futureTransactionDao: FutureTransactionDao,
     private val sharedPreferences: SharedPreferences,
     @Named(ExecutorsModule.EXECUTOR_DISK)
     private val diskExecutor: Executor
@@ -31,7 +29,8 @@ class FakeDataOperator @Inject constructor(
     private lateinit var usersList: ArrayList<User>
     private lateinit var walletList: ArrayList<Wallet>
     private lateinit var pastTransactions: ArrayList<PastTransaction>
-    
+    private lateinit var futureTransactions: ArrayList<MoneyTransaction>
+
     fun insertTestDataIfNeeded() {
         if (!sharedPreferences.getBoolean(KEY_IS_FIRST_TIME, true)) return
 
@@ -44,9 +43,6 @@ class FakeDataOperator @Inject constructor(
                 .putBoolean(KEY_IS_FIRST_TIME, false)
                 .apply()
         }
-        
-        
-        Log.d(TAG, "createFakeData: ")
     }
 
     private fun insertToDatabase() {
@@ -63,7 +59,11 @@ class FakeDataOperator @Inject constructor(
             .subscribe()
 
         transactionDao.addTransactionList(pastTransactions)
-            .doOnComplete { Log.d(TAG, "insertToDatabase: transactionDao") }
+            .doOnComplete { Log.d(TAG, "insertToDatabase: addTransactionList") }
+            .subscribe()
+
+        futureTransactionDao.addFutureTransactionList(futureTransactions)
+            .doOnComplete { Log.d(TAG, "insertToDatabase: addFutureTransactionList") }
             .subscribe()
     }
 
@@ -74,7 +74,8 @@ class FakeDataOperator @Inject constructor(
         usersList = ArrayList(5)
         walletList = ArrayList(5)
         pastTransactions = ArrayList(100)
-        
+        futureTransactions = ArrayList(5)
+
         for(i in 1..5) {
             credentialsList.add(generateFakeCredentials(i))
             usersList.add(generateFakeUser(i))
@@ -82,6 +83,22 @@ class FakeDataOperator @Inject constructor(
         }
         for (i in 1..100)
             pastTransactions.add(generateFakeTransaction(i, databaseDateFormat))
+
+        for (i in 101..105)
+            futureTransactions.add(generateFakeFutureTransaction(i))
+    }
+
+    private fun generateFakeFutureTransaction(i: Int): MoneyTransaction {
+        return MoneyTransaction(
+            transactionId = i.toLong(),
+            currency = RandomSelector.selectCurrency(),
+            fee = Random.nextDouble(0.5, 5.0),
+            totalAmount = Random.nextDouble(7.0, 50.0),
+            isRefund = false,
+            description = "Transaction $i",
+            warning = null,
+            source = RandomSelector.nextSource()
+        )
     }
 
     private fun generateFakeTransaction(i: Int, databaseDateFormat: SimpleDateFormat): PastTransaction {

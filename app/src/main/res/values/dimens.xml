@@ -18,4 +18,5 @@
     <dimen name="text_logo_med_height">25dp</dimen>
     <dimen name="item_image_hw">37dp</dimen>
     <dimen name="user_image_hw">120dp</dimen>
+    <dimen name="company_image_hw">90dp</dimen>
 </resources>

@@ -18,19 +18,17 @@ import com.test.basemodule.base.model.VMNotification
 import com.test.fasterpay.R
 import com.test.fasterpay.ui.fragments.base.FasterPayBaseFragment
 import com.test.fasterpay.vo.MoneyTransaction
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_scan.*
 
-
+@AndroidEntryPoint
 class ScanFragment : FasterPayBaseFragment<ScanViewModel>() {
     private var codeScanner: CodeScanner? = null
-    var fragmentContainer: FragmentContainer? = null
+    private var fragmentContainer: FragmentContainer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (parentFragment is FragmentContainer)
-            fragmentContainer = parentFragment as FragmentContainer
-        else if (activity is FragmentContainer)
-            fragmentContainer = activity as FragmentContainer
+        fragmentContainer = findFragmentContainer()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -73,11 +71,12 @@ class ScanFragment : FasterPayBaseFragment<ScanViewModel>() {
     }
 
     private fun startPreview() {
-        if (codeScanner?.isPreviewActive != false)
+        if (codeScanner?.isPreviewActive != true)
             codeScanner?.startPreview()
     }
 
     private fun initCodeScanner() {
+        fSScannerView.setOnClickListener { startPreview() }
         codeScanner = CodeScanner(requireContext(), fSScannerView)
         codeScanner?.autoFocusMode = AutoFocusMode.SAFE
         codeScanner?.scanMode = ScanMode.SINGLE

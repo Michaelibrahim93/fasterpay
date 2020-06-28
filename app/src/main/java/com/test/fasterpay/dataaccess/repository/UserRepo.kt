@@ -2,7 +2,6 @@ package com.test.fasterpay.dataaccess.repository
 
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Transformations
 import com.test.basemodule.base.model.resource.UserResource
 import com.test.fasterpay.dataaccess.fakenetwork.FakeWebService
