@@ -124,8 +124,16 @@
                 style="@style/BtnOrangeStyle"
                 android:layout_margin="@dimen/auth_padding"
                 android:text="@{TextFormatter.formatPayText(rootView, transaction)}"
-                android:enabled="@{transaction.canBuy}"
+                app:visibleGone="@{transaction.canBuy}"
                 android:onClick="@{() -> callbacks.clickedPay()}"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextRegularBlack"
+                android:layout_margin="@dimen/auth_padding"
+                android:text="@string/your_balance_not_sufficient"
+                app:visibleGone="@{!transaction.canBuy}"
+                android:gravity="center"/>
         </LinearLayout>
     </LinearLayout>
     <data>

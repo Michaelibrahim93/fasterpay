@@ -53,4 +53,5 @@
     <string name="fee">Fee:</string>
     <string name="pay">Pay</string>
     <string name="congrats_transaction_completed">"Congratulations transactions has been completed successfully "</string>
+    <string name="your_balance_not_sufficient">Your available balance is not sufficient to pay this</string>
 </resources>

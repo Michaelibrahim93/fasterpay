@@ -48,12 +48,12 @@ class TransactionDetailsFragment :
             .show()
     }
 
+    override fun clickedPay() {
+        viewModel.pay()
+    }
+
     companion object {
         const val ACTION_SHOW_CONGRATS: String = "ACTION_SHOW_CONGRATS"
         const val KEY_TRANSACTION = "KEY_TRANSACTION"
-    }
-
-    override fun clickedPay() {
-        viewModel.pay()
     }
 }
