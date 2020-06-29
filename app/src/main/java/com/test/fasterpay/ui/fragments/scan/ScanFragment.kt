@@ -98,6 +98,8 @@ class ScanFragment : FasterPayBaseFragment<ScanViewModel>() {
 
     private fun stopPreview() {
         codeScanner?.stopPreview()
+        codeScanner?.releaseResources()
+        codeScanner = null
     }
 
     private fun startPreview() {

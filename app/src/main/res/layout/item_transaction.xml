@@ -34,6 +34,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/iTImageView"
             app:layout_constraintBottom_toBottomOf="@id/iTImageView"
+            android:gravity="end"
             android:text="@{TextFormatter.formatPaymentValue(itemData.transaction)}"
             android:textColor="@{TextFormatter.formatPaymentTextColor(rootView, itemData.transaction)}"/>
 
