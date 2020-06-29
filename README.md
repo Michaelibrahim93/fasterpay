@@ -13,4 +13,4 @@
 - test4@test.com/Test1234
 - test5@test.com/Test1234
 
-##QR Codes are in qr directory in project root directory
+## QR Codes are in qr directory in project root directory
