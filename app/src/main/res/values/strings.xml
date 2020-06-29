@@ -54,4 +54,7 @@
     <string name="pay">Pay</string>
     <string name="congrats_transaction_completed">"Congratulations transactions has been completed successfully "</string>
     <string name="your_balance_not_sufficient">Your available balance is not sufficient to pay this</string>
+    <string name="needs_camera_permission">FastPay needs camera permission to scan codes</string>
+    <string name="cancel">Cancel</string>
+    <string name="settings">Settings</string>
 </resources>
