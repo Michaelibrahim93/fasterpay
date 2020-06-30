@@ -1,5 +1,6 @@
 package com.test.fasterpay.dataaccess.operator
 
+import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.util.Log
 import com.test.basemodule.utils.DateUtils
@@ -45,10 +46,13 @@ class FakeDataOperator @Inject constructor(
         }
     }
 
+    @SuppressLint("CheckResult")
     private fun insertToDatabase() {
         credentialsDao.addCredentialsList(credentialsList)
             .doOnComplete { Log.d(TAG, "insertToDatabase: credentialsDao") }
-            .subscribe()
+            .subscribe(
+                { Log.d(TAG, "insertToDatabase: addCredentialsList success") },
+                { Log.w(TAG, "insertToDatabase: addCredentialsList failed", it)})
 
         userDao.addUsers(usersList)
             .doOnComplete { Log.d(TAG, "insertToDatabase: userDao") }

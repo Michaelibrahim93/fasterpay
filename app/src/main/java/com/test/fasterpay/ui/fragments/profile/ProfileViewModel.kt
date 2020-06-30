@@ -16,7 +16,7 @@ class ProfileViewModel @ViewModelInject constructor(
 
     init {
         ldUser.addSource(userRepo.getLoggedInUser()) {
-            ldUser.postValue(it.data)
+            ldUser.value = it.data
         }
     }
 
