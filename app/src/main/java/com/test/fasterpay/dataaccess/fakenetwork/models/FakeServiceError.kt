@@ -39,6 +39,7 @@ class FakeServiceError(
                 , "registrationFailed")
         }
 
+        @JvmStatic
         fun sameTransaction(context: Context): Throwable {
             return FakeServiceError(context.getString(R.string.transaction_already_done)
                 , "transaction already executed before")
