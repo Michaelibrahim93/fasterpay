@@ -3,8 +3,6 @@ package com.test.fasterpay.dataaccess.storage.dao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.test.fasterpay.vo.Wallet
-import io.reactivex.Completable
-import io.reactivex.Observable
 
 @Dao
 interface WalletDao {
@@ -12,11 +10,11 @@ interface WalletDao {
     fun getWalletByUserId(userId: Long): LiveData<Wallet>
 
     @Query("select * from Wallet where id = :id")
-    fun getWalletSync(id: Long): Wallet
+    suspend fun getWalletSync(id: Long): Wallet
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addWallet(wallet: Wallet): Completable
+    suspend fun addWallet(wallet: Wallet)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addWalletList(list: List<Wallet>): Completable
+    suspend fun addWalletList(list: List<Wallet>)
 }

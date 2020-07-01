@@ -6,9 +6,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.test.fasterpay.vo.User
-import io.reactivex.Completable
-import io.reactivex.Observable
-import io.reactivex.Single
 
 @Dao
 interface UserDao {
@@ -16,14 +13,14 @@ interface UserDao {
     fun getLoggedInUserLiveData(): LiveData<User>
 
     @Query("select * from User where isLoggedUser = 1")
-    fun getLoggedInUserSync(): User
+    suspend fun getLoggedInUserSync(): User
 
     @Query("select * from User where email = :email")
-    fun getUserByEmail(email: String): Single<User>
+    suspend fun getUserByEmail(email: String): User?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addUser(user: User): Completable
+    suspend fun addUser(user: User)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addUsers(user: List<User>): Completable
+    suspend fun addUsers(user: List<User>)
 }

@@ -5,17 +5,15 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.test.fasterpay.dataaccess.fakenetwork.models.CredentialsForm
-import io.reactivex.Completable
-import io.reactivex.Single
 
 @Dao
 interface CredentialsDao {
     @Query("select * from CredentialsForm where email = :email")
-    fun getCredentialsByEmail(email: String): Single<CredentialsForm>
+    suspend fun getCredentialsByEmail(email: String): CredentialsForm?
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    fun addCredentials(credentialsForm: CredentialsForm): Single<Long>
+    suspend fun addCredentials(credentialsForm: CredentialsForm)
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    fun addCredentialsList(list: List<CredentialsForm>): Completable
+    suspend fun addCredentialsList(list: List<CredentialsForm>)
 }

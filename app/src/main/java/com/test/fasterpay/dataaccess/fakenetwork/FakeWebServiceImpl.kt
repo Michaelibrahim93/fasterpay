@@ -10,10 +10,6 @@ import com.test.fasterpay.dataaccess.storage.dao.UserDao
 import com.test.fasterpay.dataaccess.storage.dao.WalletDao
 import com.test.fasterpay.util.CurrencyCalculator
 import com.test.fasterpay.vo.*
-import io.reactivex.Completable
-import io.reactivex.Observable
-import io.reactivex.Single
-import io.reactivex.functions.Function
 import javax.inject.Inject
 import kotlin.random.Random
 
@@ -24,79 +20,71 @@ class FakeWebServiceImpl @Inject constructor(
     private val walletDao: WalletDao,
     private val transactionDao: TransactionDao
 ) : FakeWebService{
-    override fun login(credentialsForm: CredentialsForm): Observable<User> {
-        return verifyCredentials(credentialsForm)
-            .flatMap {
-                findUserByEmail(credentialsForm.email) { FakeServiceError.userNotFound(application) }
-            }
+    override suspend fun login(credentialsForm: CredentialsForm): User {
+        val dbCredentials = verifyCredentials(credentialsForm)
+        return findUserByEmail(dbCredentials.email) { FakeServiceError.userNotFound(application) }
     }
 
-    override fun signUp(credentialsForm: CredentialsForm, user: User): Observable<User> {
-        return registerCredentials(credentialsForm)
-            .flatMap{
-                userDao.addUser(user)
-                    .doOnComplete { Log.d(TAG, "signUp: user added") }
-                    .subscribe()
-                findUserByEmail(credentialsForm.email) { FakeServiceError.registrationFailed(application) }
-            }.doOnNext {
-                walletDao.addWallet(
-                    Wallet(
-                        currency = RandomSelector.selectCurrency(),
-                        balance = Random.nextDouble(100.0, 500.0),
-                        ownerId = it.id
-                    )).doOnComplete { Log.d(TAG, "signUp: wallet added") }
-                    .subscribe()
-            }
+    override suspend fun signUp(credentialsForm: CredentialsForm, user: User): User {
+        registerCredentials(credentialsForm) //it can adding credentials failed
+        userDao.addUser(user)
+        Log.d(TAG, "signUp: user added")
+        val registeredUser = findUserByEmail(credentialsForm.email) { FakeServiceError.registrationFailed(application) }
+        walletDao.addWallet(
+            Wallet(
+                currency = RandomSelector.selectCurrency(),
+                balance = Random.nextDouble(100.0, 500.0),
+                ownerId = registeredUser.id
+            ))
+       return user
     }
 
-    override fun addTransaction(transaction: MoneyTransaction, walletId: Long): Observable<PastTransaction> {
+    override suspend fun addTransaction(transaction: MoneyTransaction, walletId: Long): PastTransaction {
         val pastTransaction = PastTransaction.generateTransaction(transaction, walletId, Constants.databaseDateFormat())
-        return transactionDao.countItems(walletId, transaction.transactionId)
-            .flatMap {
-                if (it > 0) throw FakeServiceError.sameTransaction(application)
-                val wallet = walletDao.getWalletSync(walletId)
-                wallet.balance -= CurrencyCalculator.toCurrencyValue(pastTransaction.totalAmount, pastTransaction.currency, wallet.currency)
-                walletDao.addWallet(wallet).subscribe()
-                transactionDao.addTransaction(pastTransaction)
-            }.toObservable()
-            .map { pastTransaction }
+        //add transactions
+        val userTransactionCount = transactionDao.countItems(walletId, transaction.transactionId)
+        if (userTransactionCount > 0)
+            throw FakeServiceError.sameTransaction(application)
+
+        //reduce transaction amount from wallet balance
+        val wallet = walletDao.getWalletSync(walletId)
+        wallet.balance -= CurrencyCalculator.toCurrencyValue(pastTransaction.totalAmount, pastTransaction.currency, wallet.currency)
+        walletDao.addWallet(wallet)
+
+        transactionDao.addTransaction(pastTransaction)
+
+        //return past transaction
+        return pastTransaction
     }
 
     //helping functions
-    private inline fun findUserByEmail(email: String, crossinline generateError: () -> FakeServiceError): Observable<User> {
-        return userDao.getUserByEmail(email)
-            .doOnSuccess { Log.d(TAG, "findUserByEmail: ${it.email}") }
-            .onErrorResumeNext {
-                Single.error(
-                    if (it is FakeServiceError) it
-                    else generateError()
-                )
-            }.toObservable()
+    private suspend inline fun findUserByEmail(email: String, generateError: () -> FakeServiceError): User {
+        val dbUser = userDao.getUserByEmail(email)
+        Log.d(TAG, "findUserByEmail: ${dbUser?.email}")
+        if (dbUser == null)
+            throw generateError()
+        return dbUser
     }
 
-    private fun registerCredentials(credentialsForm: CredentialsForm): Observable<Long> {
-        return credentialsDao.addCredentials(credentialsForm)
-            .doOnSuccess { Log.d(TAG, "registerCredentials: registration done") }
-            .onErrorResumeNext {
-                Log.w(TAG, "registerCredentials: onErrorResumeNext", it)
-                Single.error(FakeServiceError.alreadyRegistered(application))
-            }.toObservable()
+    private suspend fun registerCredentials(credentialsForm: CredentialsForm) {
+        try {
+            credentialsDao.addCredentials(credentialsForm)
+            Log.d(TAG, "registerCredentials: registration done")
+        } catch (t: Throwable) {
+            Log.w(TAG, "registerCredentials: failed", t)
+            throw FakeServiceError.alreadyRegistered(application)
+        }
     }
 
-    private fun verifyCredentials(credentialsForm: CredentialsForm): Observable<CredentialsForm> {
-        return credentialsDao.getCredentialsByEmail(credentialsForm.email).toObservable()
-            .doOnNext {
-                Log.d(TAG, "verifyCredentials: ${it.email}")
-                if (it.password != credentialsForm.password)
-                    throw FakeServiceError.wrongPassword(application)
-            }
-            .doOnError { Log.d(TAG, "verifyCredentials: $it") }
-            .onErrorResumeNext (
-                Function<Throwable, Observable<CredentialsForm>> {
-                    Log.d(TAG, "verifyCredentials: Function $it")
-                    Observable.error<CredentialsForm>(FakeServiceError.wrongEmail(application))
-                }
-            )
+    private suspend fun verifyCredentials(credentialsForm: CredentialsForm): CredentialsForm {
+        val dbCredentials = credentialsDao.getCredentialsByEmail(credentialsForm.email)
+        Log.d(TAG, "verifyCredentials: ${dbCredentials?.email}")
+        if (dbCredentials == null)
+            throw FakeServiceError.wrongEmail(application)
+        if (dbCredentials.password != credentialsForm.password)
+            throw FakeServiceError.wrongPassword(application)
+
+        return dbCredentials
     }
 
     companion object {

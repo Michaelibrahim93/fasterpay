@@ -1,25 +1,28 @@
 package com.test.fasterpay.ui.fragments.base
 
 import android.app.Application
+import androidx.lifecycle.viewModelScope
 import com.test.basemodule.base.model.UiError
 import com.test.basemodule.base.viewmodel.BaseViewModel
-import com.test.basemodule.utils.LogUtils
 import com.test.fasterpay.dataaccess.fakenetwork.models.FakeServiceError
-import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
+import java.util.concurrent.CancellationException
 
 open class FasterPayBaseViewModel(application: Application) : BaseViewModel(application) {
-    protected val compositeDisposable = CompositeDisposable()
-
-    protected fun runObservable(observable: Observable<*>) {
-        compositeDisposable.add(observable.subscribe(
-            { LogUtils.d(javaClass.simpleName, "request succeed $it") },
-            { LogUtils.e(javaClass.simpleName, "request failed $it") }
-        ))
+    protected inline fun launchDataLoad(defaultThrowableHandle: Boolean = true, crossinline block: suspend () -> Unit) {
+        viewModelScope.launch {
+            try {
+                block()
+            } catch (error: Throwable) {
+                if (defaultThrowableHandle)
+                    handleNetworkError(error)
+            }
+        }
     }
 
     override fun onCleared() {
-        compositeDisposable.dispose()
+        viewModelScope.cancel(CancellationException("ViewModel has been cleared"))
         super.onCleared()
     }
 

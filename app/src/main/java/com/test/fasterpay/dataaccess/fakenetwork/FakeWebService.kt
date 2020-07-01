@@ -4,10 +4,8 @@ import com.test.fasterpay.dataaccess.fakenetwork.models.CredentialsForm
 import com.test.fasterpay.vo.MoneyTransaction
 import com.test.fasterpay.vo.PastTransaction
 import com.test.fasterpay.vo.User
-import io.reactivex.Observable
-
 interface FakeWebService {
-    fun login(credentialsForm: CredentialsForm): Observable<User>
-    fun signUp(credentialsForm: CredentialsForm, user: User): Observable<User>
-    fun addTransaction(transaction: MoneyTransaction, walletId: Long): Observable<PastTransaction>
+    suspend fun login(credentialsForm: CredentialsForm): User
+    suspend fun signUp(credentialsForm: CredentialsForm, user: User): User
+    suspend fun addTransaction(transaction: MoneyTransaction, walletId: Long): PastTransaction
 }
