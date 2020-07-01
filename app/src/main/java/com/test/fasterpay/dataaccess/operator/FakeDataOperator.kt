@@ -1,18 +1,15 @@
 package com.test.fasterpay.dataaccess.operator
 
-import android.annotation.SuppressLint
 import android.content.SharedPreferences
-import android.util.Log
 import com.test.basemodule.utils.DateUtils
 import com.test.fasterpay.dataaccess.fakenetwork.models.CredentialsForm
 import com.test.fasterpay.dataaccess.storage.dao.*
-import com.test.fasterpay.util.ExecutorsModule
 import com.test.fasterpay.vo.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.Executor
 import javax.inject.Inject
-import javax.inject.Named
 import kotlin.collections.ArrayList
 import kotlin.random.Random
 
@@ -22,9 +19,7 @@ class FakeDataOperator @Inject constructor(
     private val walletDao: WalletDao,
     private val transactionDao: TransactionDao,
     private val futureTransactionDao: FutureTransactionDao,
-    private val sharedPreferences: SharedPreferences,
-    @Named(ExecutorsModule.EXECUTOR_DISK)
-    private val diskExecutor: Executor
+    private val sharedPreferences: SharedPreferences
 ) {
     private lateinit var credentialsList: ArrayList<CredentialsForm>
     private lateinit var usersList: ArrayList<User>
@@ -32,43 +27,27 @@ class FakeDataOperator @Inject constructor(
     private lateinit var pastTransactions: ArrayList<PastTransaction>
     private lateinit var futureTransactions: ArrayList<MoneyTransaction>
 
-    fun insertTestDataIfNeeded() {
-        if (!sharedPreferences.getBoolean(KEY_IS_FIRST_TIME, true)) return
+    suspend fun insertTestDataIfNeeded() = withContext(Dispatchers.IO){
+        if (!sharedPreferences.getBoolean(KEY_IS_FIRST_TIME, true)) return@withContext
+        createTestLists()
+        insertToDatabase()
 
-        diskExecutor.execute {
-            createTestLists()
-            insertToDatabase()
-
-            sharedPreferences
-                .edit()
-                .putBoolean(KEY_IS_FIRST_TIME, false)
-                .apply()
-        }
+        sharedPreferences
+            .edit()
+            .putBoolean(KEY_IS_FIRST_TIME, false)
+            .apply()
     }
 
-    @SuppressLint("CheckResult")
-    private fun insertToDatabase() {
+    private suspend fun insertToDatabase() {
         credentialsDao.addCredentialsList(credentialsList)
-            .doOnComplete { Log.d(TAG, "insertToDatabase: credentialsDao") }
-            .subscribe(
-                { Log.d(TAG, "insertToDatabase: addCredentialsList success") },
-                { Log.w(TAG, "insertToDatabase: addCredentialsList failed", it)})
 
         userDao.addUsers(usersList)
-            .doOnComplete { Log.d(TAG, "insertToDatabase: userDao") }
-            .subscribe()
 
         walletDao.addWalletList(walletList)
-            .doOnComplete { Log.d(TAG, "insertToDatabase: walletDao") }
-            .subscribe()
 
         transactionDao.addTransactionList(pastTransactions)
-            .doOnComplete { Log.d(TAG, "insertToDatabase: addTransactionList") }
-            .subscribe()
 
         futureTransactionDao.addFutureTransactionList(futureTransactions)
-            .doOnComplete { Log.d(TAG, "insertToDatabase: addFutureTransactionList") }
-            .subscribe()
     }
 
     private fun createTestLists() {
@@ -159,7 +138,6 @@ class FakeDataOperator @Inject constructor(
     }
 
     companion object {
-        private const val TAG = "FakeDataOperator"
         private const val KEY_IS_FIRST_TIME = "FakeDataOperator"
     }
 }

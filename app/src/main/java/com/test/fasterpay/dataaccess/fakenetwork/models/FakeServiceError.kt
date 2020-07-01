@@ -1,6 +1,5 @@
 package com.test.fasterpay.dataaccess.fakenetwork.models
 
-import android.app.Application
 import android.content.Context
 import com.test.fasterpay.R
 

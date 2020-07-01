@@ -44,14 +44,11 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
         ldLoadingState.postValue()
     }
 
-    protected fun addAction(action: String?) {
-        ldActions.value!!.add(VMNotification(action!!))
-        ldActions.postValue()
-    }
-
-    protected fun addAction(action: String?, tag: Any?) {
+    protected fun addAction(action: String?, tag: Any? = null, threadSafe: Boolean = true) {
         ldActions.value!!.add(VMNotification(action!!, tag))
-        ldActions.postValue()
+
+        if (threadSafe) ldActions.postValue()
+        else ldActions.setValue()
     }
 
     fun clearActions() {

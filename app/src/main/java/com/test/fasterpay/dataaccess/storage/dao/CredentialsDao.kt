@@ -14,6 +14,6 @@ interface CredentialsDao {
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun addCredentials(credentialsForm: CredentialsForm)
 
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addCredentialsList(list: List<CredentialsForm>)
 }

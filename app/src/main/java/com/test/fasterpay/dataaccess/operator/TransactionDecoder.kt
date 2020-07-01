@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class TransactionDecoder @Inject constructor(private val transactionsRepo: TransactionsRepo){
     @WorkerThread
-    fun decodeTransaction(jsonObject: String): MoneyTransaction {
+    suspend fun decodeTransaction(jsonObject: String): MoneyTransaction {
         val qrModel = Gson().fromJson(jsonObject, TransactionQRModel::class.java)
         return transactionsRepo.getTransactionSync(qrModel.transactionId)!!
     }

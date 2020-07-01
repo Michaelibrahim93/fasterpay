@@ -2,10 +2,8 @@
 
 package com.test.fasterpay.ui.formatters
 
-import android.graphics.Color.red
 import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import com.test.fasterpay.R
 import com.test.fasterpay.ui.fragments.transactiondetails.model.UiTransactionDetails
 import com.test.fasterpay.vo.MoneyTransaction

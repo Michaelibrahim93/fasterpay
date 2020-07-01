@@ -9,9 +9,8 @@ import com.test.fasterpay.dataaccess.storage.dao.FutureTransactionDao
 import com.test.fasterpay.dataaccess.storage.dao.TransactionDao
 import com.test.fasterpay.vo.MoneyTransaction
 import com.test.fasterpay.vo.PastTransaction
-import com.test.fasterpay.vo.Wallet
-import io.reactivex.Observable
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class TransactionsRepo @Inject constructor(
@@ -25,13 +24,13 @@ class TransactionsRepo @Inject constructor(
         }
     }
 
-    fun addTransaction(moneyTransaction: MoneyTransaction, walletId: Long): Observable<PastTransaction> {
-        return fakeWebService.addTransaction(moneyTransaction, walletId)
-            .subscribeOn(Schedulers.io())
+    suspend fun addTransaction(moneyTransaction: MoneyTransaction, walletId: Long): PastTransaction
+        = withContext(Dispatchers.IO){
+        fakeWebService.addTransaction(moneyTransaction, walletId)
     }
 
     @WorkerThread
-    fun getTransactionSync(transactionId: Long): MoneyTransaction? {
-        return futureTransactionDao.getPreTransactionSync(transactionId)
+    suspend fun getTransactionSync(transactionId: Long): MoneyTransaction? = withContext(Dispatchers.IO){
+        futureTransactionDao.getPreTransactionSync(transactionId)
     }
 }

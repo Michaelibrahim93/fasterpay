@@ -38,10 +38,10 @@ class WalletViewModel @ViewModelInject constructor(
     }
 
     private fun initTransactionsLiveData() {
-        ldTransactions.addSource(ldWallet) {
+        ldTransactions.addSource(ldWallet) { wallet ->
             ldTransactions.removeSource(ldWallet)
-            ldTransactions.addSource(transactionsRepo.loadTransactions(it.id)){
-                ldTransactions.postValue(mapTransActions(it))
+            ldTransactions.addSource(transactionsRepo.loadTransactions(wallet.id)){ listOfTransactionsRes ->
+                ldTransactions.postValue(mapTransActions(listOfTransactionsRes))
             }
         }
     }

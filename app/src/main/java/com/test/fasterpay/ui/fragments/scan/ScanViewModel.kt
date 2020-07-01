@@ -14,10 +14,10 @@ class ScanViewModel @ViewModelInject constructor(
 ) : FasterPayBaseViewModel(application) {
 
     @WorkerThread
-    fun onQrCodeDetected(it: Result) {
+    fun onQrCodeDetected(it: Result) = launchDataLoad(false) {
         try {
             val transaction = transactionDecoder.decodeTransaction(it.text)
-            addAction(ScanFragment.ACTION_TRANSACTION_FOUND, transaction)
+            addAction(ScanFragment.ACTION_TRANSACTION_FOUND, transaction, false)
         } catch (throwable: Throwable) {
             sendError(getContext().getString(R.string.invalid_qr_code))
         }

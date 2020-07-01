@@ -29,14 +29,10 @@ class SignUpViewModel
     val ldBirthDate = MutableLiveData<Date>()
     val ldAcceptPolicy = MutableLiveData<Boolean>()
 
-    fun signUp() {
-        if (!validateData()) return
-
-        val observable = userRepo.signUp(createUserObject(), ldPassword.value!!)
-            .doOnNext { addAction(FasterPayBaseFragment.ACTION_TO_HOME) }
-            .doOnError { handleNetworkError(it) }
-
-        runObservable(observable)
+    fun signUp() = launchDataLoad {
+        if (!validateData()) return@launchDataLoad
+        userRepo.signUp(createUserObject(), ldPassword.value!!)
+        addAction(FasterPayBaseFragment.ACTION_TO_HOME)
     }
 
     private fun createUserObject(): User {

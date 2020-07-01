@@ -23,7 +23,9 @@ class SplashViewModel @ViewModelInject constructor(
         initMediatorLiveDate()
         Handler().postDelayed( { toNextScreen() } ,3000)
 
-        fakeDataOperator.insertTestDataIfNeeded()
+        launchDataLoad(false) {
+            fakeDataOperator.insertTestDataIfNeeded()
+        }
     }
 
     private fun initMediatorLiveDate() {
@@ -34,12 +36,8 @@ class SplashViewModel @ViewModelInject constructor(
 
     private fun toNextScreen() {
         if (loggedUser.value?.data != null)
-            addAction(FasterPayBaseFragment.ACTION_TO_HOME)
+            addAction(FasterPayBaseFragment.ACTION_TO_HOME, null, false)
         else
-            addAction(SplashFragment.ACTION_TO_LOGIN)
-    }
-
-    companion object {
-        private const val TAG = "SplashViewModel"
+            addAction(SplashFragment.ACTION_TO_LOGIN, null, false)
     }
 }

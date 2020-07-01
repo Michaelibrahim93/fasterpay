@@ -7,52 +7,47 @@ import com.test.basemodule.base.model.resource.UserResource
 import com.test.fasterpay.dataaccess.fakenetwork.FakeWebService
 import com.test.fasterpay.dataaccess.fakenetwork.models.CredentialsForm
 import com.test.fasterpay.dataaccess.storage.dao.UserDao
-import com.test.fasterpay.util.ExecutorsModule
 import com.test.fasterpay.vo.User
 import dagger.hilt.android.scopes.ActivityRetainedScoped
-import io.reactivex.Observable
-import io.reactivex.schedulers.Schedulers
-import java.util.concurrent.Executor
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import javax.inject.Named
 
 @ActivityRetainedScoped
 class UserRepo @Inject constructor(
     private val fakeWebService: FakeWebService,
-    private val userDao: UserDao,
-    @Named(ExecutorsModule.EXECUTOR_DISK)
-    private val diskExecutor: Executor
+    private val userDao: UserDao
 ) {
 
     fun getLoggedInUser(): LiveData<UserResource<User>> {
         return Transformations.map(userDao.getLoggedInUserLiveData()) { UserResource.success(it) }
     }
 
-    fun login(email: String, password: String): Observable<User> {
-        return fakeWebService.login(CredentialsForm(email, password))
-            .subscribeOn(Schedulers.io())
-            .doOnNext { authenticateUser(it) }
+    suspend fun login(email: String, password: String): User = withContext(Dispatchers.IO){
+        val user = fakeWebService.login(CredentialsForm(email, password))
+        Log.d(TAG, "login: succeed: ${user.email}")
+        authenticateUser(user)
+        user
     }
 
-    private fun authenticateUser(user: User) {
+
+    private suspend fun authenticateUser(user: User) {
         user.isLoggedUser = true
         userDao.addUser(user)
-            .doOnComplete { Log.d(TAG, "authenticateUser: ${user.email}") }
-            .subscribe()
     }
 
-    fun signUp(user: User, password: String): Observable<User> {
-        return fakeWebService.signUp(CredentialsForm(user.email, password), user)
-            .subscribeOn(Schedulers.io())
-            .doOnNext { authenticateUser(it) }
+    suspend fun signUp(user: User, password: String): User = withContext(Dispatchers.IO){
+        val loggedUser = fakeWebService.signUp(CredentialsForm(user.email, password), user)
+        Log.d(TAG, "signUp: succeed: ${loggedUser.email}")
+        authenticateUser(loggedUser)
+        loggedUser
     }
 
-    fun logout() {
-        diskExecutor.execute {
-            val user = userDao.getLoggedInUserSync()
-            user.isLoggedUser = false
-            userDao.addUser(user).subscribe()
-        }
+    suspend fun logout() = withContext(Dispatchers.IO){
+        val user = userDao.getLoggedInUserSync()
+        user.isLoggedUser = false
+        userDao.addUser(user)
+        Log.d(TAG, "signUp: logout: ${user.email}")
     }
 
     companion object {

@@ -39,13 +39,10 @@ class TransactionDetailsViewModel @ViewModelInject constructor(
         return UiTransactionDetails(moneyTransaction, wallet, amount,amount <= wallet.balance)
     }
 
-    fun pay() {
-        val observable = transactionsRepo.addTransaction(moneyTransaction
+    fun pay() = launchDataLoad {
+        transactionsRepo.addTransaction(moneyTransaction
             , ldUiTransactionDetails.value!!.wallet.id)
-            .doOnNext { addAction(TransactionDetailsFragment.ACTION_SHOW_CONGRATS) }
-            .doOnError { handleNetworkError(it) }
-
-        runObservable(observable)
+        addAction(TransactionDetailsFragment.ACTION_SHOW_CONGRATS)
     }
 
     fun extractData(arguments: Bundle?) {

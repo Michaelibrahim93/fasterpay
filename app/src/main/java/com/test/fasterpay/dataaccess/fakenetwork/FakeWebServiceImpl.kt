@@ -36,7 +36,7 @@ class FakeWebServiceImpl @Inject constructor(
                 balance = Random.nextDouble(100.0, 500.0),
                 ownerId = registeredUser.id
             ))
-       return user
+       return registeredUser
     }
 
     override suspend fun addTransaction(transaction: MoneyTransaction, walletId: Long): PastTransaction {

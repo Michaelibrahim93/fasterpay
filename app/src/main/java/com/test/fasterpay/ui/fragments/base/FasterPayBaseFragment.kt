@@ -1,17 +1,14 @@
 package com.test.fasterpay.ui.fragments.base
 
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
-import androidx.navigation.navOptions
 import com.test.basemodule.base.model.UiError
 import com.test.basemodule.base.model.VMNotification
 import com.test.basemodule.base.view.fragment.BaseFragment
 import com.test.fasterpay.R
-import com.test.fasterpay.ui.fragments.splash.SplashFragment
 
 abstract class FasterPayBaseFragment<ViewModel : FasterPayBaseViewModel> :
     BaseFragment<ViewModel>() {
@@ -51,7 +48,6 @@ abstract class FasterPayBaseFragment<ViewModel : FasterPayBaseViewModel> :
     }
 
     companion object {
-        private const val TAG = "FasterPayBaseFragment"
         const val ACTION_TO_HOME = "ACTION_TO_HOME"
     }
 }

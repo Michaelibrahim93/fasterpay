@@ -16,14 +16,11 @@ class SignInViewModel @ViewModelInject constructor(application: Application, pri
     val ldEmail = MutableLiveData<String>()
     val ldPassword = MutableLiveData<String>()
 
-    fun login() {
-        if (!validateData()) return
+    fun login() = launchDataLoad {
+        if (!validateData()) return@launchDataLoad
 
-        val observable = userRepo.login(ldEmail.value!!, ldPassword.value!!)
-            .doOnNext { addAction(FasterPayBaseFragment.ACTION_TO_HOME) }
-            .doOnError { handleNetworkError(it) }
-
-        runObservable(observable)
+        userRepo.login(ldEmail.value!!, ldPassword.value!!)
+        addAction(FasterPayBaseFragment.ACTION_TO_HOME, null, false)
     }
 
     private fun validateData(): Boolean {
