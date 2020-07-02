@@ -1,5 +1,4 @@
-
-package com.test.fasterpay.ui.binding
+package com.test.basemodule.base.binding
 
 import android.view.View
 import androidx.databinding.BindingAdapter
